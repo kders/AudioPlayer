@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">AudioPlayer</string>
+    <!-- Navigation Drawer menu labels -->
+    <string name="nav_smart_playlist">Smart Playlists</string>
+    <string name="nav_equalizer">Equalizer</string>
+    <string name="nav_sleep_time">Sleep Timer</string>
+    <string name="nav_follow_us">Follow Us</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about_us">About Us</string>
+    <string name="nav_rate_this_app">Rate this app</string>
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>Smart Playlists</item>
+        <item>Equalizer</item>
+        <item>Sleep Timer</item>
+        <item>Follow Us</item>
+        <item>Settings</item>
+        <item>About Us</item>
+        <item>Rate this app</item>
+    </string-array>
 </resources>
