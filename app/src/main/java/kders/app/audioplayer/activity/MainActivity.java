@@ -14,6 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import kders.app.audioplayer.R;
+import kders.app.audioplayer.fragment.FragmentEqualizer;
+import kders.app.audioplayer.fragment.FragmentFollow;
+import kders.app.audioplayer.fragment.FragmentRate;
+import kders.app.audioplayer.fragment.FragmentSetting;
+import kders.app.audioplayer.fragment.FragmentSleepTime;
 import kders.app.audioplayer.fragment.FragmentSmartPlaylist;
 
 public class MainActivity extends AppCompatActivity {
@@ -98,33 +103,39 @@ public class MainActivity extends AppCompatActivity {
         switch (navItemIndex) {
             case 0:
                 // home
-                FragmentSmartPlaylist homeFragment = new FragmentSmartPlaylist();
-                return homeFragment;
+                FragmentSmartPlaylist FragmentSmartPlaylist = new FragmentSmartPlaylist();
+                return FragmentSmartPlaylist;
             case 1:
                 // photos
                 //  PhotosFragment photosFragment = new PhotosFragment();
                 //  return photosFragment;
-                FragmentSmartPlaylist homeFragment1 = new FragmentSmartPlaylist();
-                return homeFragment1;
+                FragmentEqualizer FragmentEqualizer = new FragmentEqualizer();
+                return FragmentEqualizer;
             case 2:
                 // movies fragment
                 //  MoviesFragment moviesFragment = new MoviesFragment();
                 //  return moviesFragment;
-                FragmentSmartPlaylist homeFragment2 = new FragmentSmartPlaylist();
-                return homeFragment2;
+                FragmentSleepTime FragmentSleepTime = new FragmentSleepTime();
+                return FragmentSleepTime;
             case 3:
                 // notifications fragment
                 // NotificationsFragment notificationsFragment = new NotificationsFragment();
                 // return notificationsFragment;
-                FragmentSmartPlaylist homeFragment3 = new FragmentSmartPlaylist();
-                return homeFragment3;
+                FragmentSetting FragmentSetting = new FragmentSetting();
+                return FragmentSetting;
 
             case 4:
                 // settings fragment
                 //  SettingsFragment settingsFragment = new SettingsFragment();
                 //  return settingsFragment;
-                FragmentSmartPlaylist homeFragment4 = new FragmentSmartPlaylist();
-                return homeFragment4;
+                FragmentFollow FragmentFollow = new FragmentFollow();
+                return FragmentFollow;
+            case 5:
+                // settings fragment
+                //  SettingsFragment settingsFragment = new SettingsFragment();
+                //  return settingsFragment;
+                FragmentRate FragmentRate = new FragmentRate();
+                return FragmentRate;
             default:
                 return new FragmentSmartPlaylist();
         }
@@ -170,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                         CURRENT_TAG = TAG_FOLLOW;
                         break;
                     case R.id.nav_rate:
-                        navItemIndex = 4;
+                        navItemIndex = 5;
                         CURRENT_TAG = TAG_RATE;
                         return true;
                     default:
