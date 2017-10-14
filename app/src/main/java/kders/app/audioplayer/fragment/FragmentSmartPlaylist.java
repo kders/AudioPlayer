@@ -1,9 +1,12 @@
 package kders.app.audioplayer.fragment;
 
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,8 +45,10 @@ public class FragmentSmartPlaylist extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
     public FragmentSmartPlaylist() {
     }
+
     public static FragmentSmartPlaylist newInstance(String param1, String param2) {
         FragmentSmartPlaylist fragment = new FragmentSmartPlaylist();
         Bundle args = new Bundle();
@@ -52,6 +57,7 @@ public class FragmentSmartPlaylist extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,20 +66,21 @@ public class FragmentSmartPlaylist extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View rootView =  inflater.inflate(R.layout.fragment_smart_playlist, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_smart_playlist, container, false);
         recyclerOtionView = (RecyclerView) rootView.findViewById(R.id.recycler_option_view);
 
         myOptionAdapter = new OptionAdapter(optionList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerOtionView.setLayoutManager(layoutManager);
         recyclerOtionView.setItemAnimator(new DefaultItemAnimator());
         recyclerOtionView.setAdapter(myOptionAdapter);
         prepareOption();
-        recyclerOtionView.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(),recyclerOtionView, new RecyclerTouchListener.ClickListener() {
+        recyclerOtionView.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), recyclerOtionView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Option movie = optionList.get(position);
@@ -87,18 +94,20 @@ public class FragmentSmartPlaylist extends Fragment {
         }));
         recyclerTrackView = (RecyclerView) rootView.findViewById(R.id.recycler_track_view);
         myTrackAdapter = new TrackAdapter(trackList);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerTrackView.setLayoutManager(layoutManager2);
         recyclerTrackView.setItemAnimator(new DefaultItemAnimator());
         recyclerTrackView.setAdapter(myTrackAdapter);
         prepareTrack();
         return rootView;
     }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -109,11 +118,13 @@ public class FragmentSmartPlaylist extends Fragment {
 //                    + " must implement OnFragmentInteractionListener");
 //        }
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+
     private void prepareOption() {
         Option option = new Option("TRACKS");
         optionList.add(option);
@@ -127,19 +138,31 @@ public class FragmentSmartPlaylist extends Fragment {
         optionList.add(option);
         myOptionAdapter.notifyDataSetChanged();
     }
+
     private void prepareTrack() {
-        Track track = new Track("Noi nay co anh","Son Tung MTP", "2:41");
-        trackList.add(track);
-        track = new Track("Noi nay co anh","Son Tung MTP", "2:41");
-        trackList.add(track);
-        track = new Track("Noi nay co anh","Son Tung MTP", "2:41");
-        trackList.add(track);
-        track = new Track("Noi nay co anh","Son Tung MTP", "2:41");
-        trackList.add(track);
-        track = new Track("Noi nay co anh","Son Tung MTP", "2:41");
-        trackList.add(track);
+        ContentResolver contentResolver = getActivity().getContentResolver();
+        Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor cursor = contentResolver.query(songUri, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int songTitle = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int songArtist = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+            int songDuration = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
+            do {
+                String displayname = cursor.getString(songTitle);
+                String duration = cursor.getString(songDuration);
+                int s = Integer.parseInt(duration);
+                String temp = String.format("%02d:%02d", (s/1000) / 60, ((s/1000) % 60));
+                String artist = cursor.getString(songArtist);
+                Track track = new Track(displayname,artist,temp);
+                trackList.add(track);
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+
         myTrackAdapter.notifyDataSetChanged();
     }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

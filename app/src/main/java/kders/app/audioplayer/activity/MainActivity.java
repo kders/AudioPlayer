@@ -1,7 +1,12 @@
 package kders.app.audioplayer.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import kders.app.audioplayer.R;
 import kders.app.audioplayer.fragment.FragmentEqualizer;
@@ -22,6 +28,7 @@ import kders.app.audioplayer.fragment.FragmentSleepTime;
 import kders.app.audioplayer.fragment.FragmentSmartPlaylist;
 
 public class MainActivity extends AppCompatActivity {
+    private static final  int MY_PERMISSION_REQUEST = 1;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private Toolbar toolbar;
@@ -40,6 +47,50 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)){
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSION_REQUEST);
+
+            }
+            else{
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSION_REQUEST);
+            }
+        }
+        else{
+            init();
+        }
+        if (savedInstanceState == null && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED ) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_PLAYLIST;
+            loadHomeFragment();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case MY_PERMISSION_REQUEST:{
+                if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE) ==PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this,"Permission granted!",Toast.LENGTH_SHORT).show();
+                        init();
+                    }
+                    else{
+                        Toast.makeText(this,"No Permission ",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    public void init(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -47,13 +98,7 @@ public class MainActivity extends AppCompatActivity {
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
         setUpNavigationView();
 
-        if (savedInstanceState == null) {
-            navItemIndex = 0;
-            CURRENT_TAG = TAG_PLAYLIST;
-             loadHomeFragment();
-        }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
