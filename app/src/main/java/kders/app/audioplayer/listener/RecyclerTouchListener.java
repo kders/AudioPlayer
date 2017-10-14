@@ -1,4 +1,4 @@
-package kders.app.audioplayer;
+package kders.app.audioplayer.listener;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

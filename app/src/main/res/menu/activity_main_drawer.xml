@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_smart_playlist"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Smart Playlist" />
+        <item
+            android:id="@+id/nav_equalizer"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Equalizer" />
+        <item
+            android:id="@+id/nav_sleep"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Sleep Timer" />
+
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Settings" />
+
+        <item
+            android:id="@+id/nav_follow"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Follow Us" />
+        <item
+            android:id="@+id/nav_rate"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Rate This App" />
+    </group>
+</menu>

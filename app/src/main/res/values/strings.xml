@@ -18,4 +18,7 @@
         <item>About Us</item>
         <item>Rate this app</item>
     </string-array>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
 </resources>

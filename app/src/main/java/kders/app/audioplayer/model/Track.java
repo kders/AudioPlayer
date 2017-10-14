@@ -1,4 +1,4 @@
-package kders.app.audioplayer;
+package kders.app.audioplayer.model;
 
 /**
  * Created by User on 10/8/2017.
