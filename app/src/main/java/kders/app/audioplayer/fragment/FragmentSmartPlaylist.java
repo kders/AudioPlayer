@@ -19,7 +19,7 @@ import java.util.List;
 import kders.app.audioplayer.Adapter.OptionAdapter;
 import kders.app.audioplayer.Adapter.TrackAdapter;
 import kders.app.audioplayer.R;
-import kders.app.audioplayer.listener.RecyclerTouchListener;
+import kders.app.audioplayer.utils.RecyclerTouchListener;
 import kders.app.audioplayer.model.Option;
 import kders.app.audioplayer.model.Track;
 
