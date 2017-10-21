@@ -3,6 +3,7 @@ package kders.app.audioplayer.fragment;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.List;
 import kders.app.audioplayer.Adapter.OptionAdapter;
 import kders.app.audioplayer.Adapter.TrackAdapter;
 import kders.app.audioplayer.R;
+import kders.app.audioplayer.activity.NowPlayingActivity;
 import kders.app.audioplayer.utils.RecyclerTouchListener;
 import kders.app.audioplayer.model.Option;
 import kders.app.audioplayer.model.Track;
@@ -39,7 +42,7 @@ public class FragmentSmartPlaylist extends Fragment {
     TrackAdapter myTrackAdapter;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private LinearLayout track_info_layout;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -72,6 +75,14 @@ public class FragmentSmartPlaylist extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_smart_playlist, container, false);
+        track_info_layout = (LinearLayout) rootView.findViewById(R.id.track_info_layout);
+        track_info_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),NowPlayingActivity.class);
+                startActivity(intent);
+            }
+        });
         recyclerOtionView = (RecyclerView) rootView.findViewById(R.id.recycler_option_view);
 
         myOptionAdapter = new OptionAdapter(optionList);

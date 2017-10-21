@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void init(){
+    private void init(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
